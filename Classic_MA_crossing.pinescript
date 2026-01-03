@@ -1,0 +1,23 @@
+// This Pine Script® code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © sergeycrusher
+
+//@version=6
+strategy("Пересечение MA", overlay=true)
+
+// Логика
+fast_ma = ta.sma(close, 100) // быстрая MA
+slow_ma = ta.sma(close, 400) // медленная MA
+
+long_condition = ta.crossover(fast_ma, slow_ma)  // СНИЗУ ВВЕРХ
+short_condition = ta.crossunder(fast_ma, slow_ma) // СВЕРХ ВНИЗ
+
+// Исполнение ордеров
+if (long_condition)
+    strategy.entry("Золотой крест", strategy.long)
+
+if (short_condition)
+    strategy.entry("Крест смерти", strategy.short)
+
+// Визуализация на графике
+plot(fast_ma, color=color.green)
+plot(slow_ma, color=color.orange)
